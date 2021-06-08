@@ -1,0 +1,57 @@
+function App() {
+    // the initial state is an array of objects
+    const [todos, setTodos] = React.useState([
+        {
+            text: 'learn react',
+            isCompleted: false
+        },
+        {
+            text: 'meet friend for lunch',
+            isCompleted: false
+        },
+        {
+            text: 'build todo app',
+            isCompleted: false
+        }
+    ]);
+
+    const [value, setValue] = React.useState('');
+
+    const handleSubmit = e => {
+        e.preventDefault();
+        if (!value) return;
+        const newTodos = [...todos, {text: value, isCompleted: false}];
+        setTodos(newTodos);
+        setValue('');
+    }
+
+    const removeTodo = e => {
+        const index = Number(e.target.id);
+        let temp = [...todos]
+        //remove simply that one item from the list
+        temp.splice(index, 1)
+        setTodos(temp);
+    }
+
+    // returns our jsx
+    return (<>
+        {todos.map((todo, i) => 
+            <div key={i} id={i} onClick={removeTodo} className="todo">{todo.text}</div>)}
+
+        <form onSubmit={handleSubmit}>
+            <input 
+                type="text" 
+                className="input" 
+                value={value} 
+                placeholder="Add Todo ..." 
+                onChange={e => setValue(e.target.value)} 
+                />
+        </form>
+    </>);
+}
+
+
+ReactDOM.render(
+    <App/>,
+    document.getElementById('root')
+)
